@@ -87,6 +87,9 @@ def exit():
     session.clear()
     return redirect(url_for('index'))
 
+@app.route("/register")
+def register():
+    return render_template('register.html')
 
 @app.route("/" , methods=["GET","POST"])
 def index():
