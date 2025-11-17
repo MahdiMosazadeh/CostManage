@@ -1,6 +1,8 @@
 from flask import Flask , render_template , redirect , url_for , request , session
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy # type: ignore
 from functools import wraps
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 
 
 ################    Configs    ################
@@ -11,7 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:shadow123%21%40%23
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 DB = SQLAlchemy(app)
-
+Argon = PasswordHasher()
 
 ################    Tabels    ################
 
@@ -95,9 +97,32 @@ def exit():
     return redirect(url_for('index'))
 
 #### register
-@app.route("/register")
+@app.route("/register" , methods=["GET","POST"])
 def register():
-    return render_template('register.html')
+    if request.method == "POST":
+        fname = request.form["fname"]
+        lname = request.form["lname"]
+        username = request.form["username"]
+        
+        password = request.form["password"]
+        hashedPass = Argon.hash(password)
+        
+        description = request.form["description"]
+        
+        try:
+            new_user = User(username=username,
+                            password=hashedPass,
+                            fname=fname,
+                            lname=lname,
+                            description=description)
+            DB.session.add(new_user)
+            DB.session.commit()
+            
+            return render_template("/register.html" , notif = "success")
+        except:
+            return render_template("/register.html" , notif = "error")
+        
+    return render_template('/register.html')
 
 #### index
 @app.route("/" , methods=["GET","POST"])
