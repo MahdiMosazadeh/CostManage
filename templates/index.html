@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>سیستم مدیریت هزینه داده فراز</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}" />
+  </head>
+  <body>
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row justify-content-center"></div>
+        <div class="row justify-content-center">
+          <div class="col-md-7 col-lg-5">
+            <div class="wrap">
+              <div class="img" style="background-image: url({{ url_for('static', filename='assets/img/bg-1.jpg') }});"></div>
+
+              <div class="login-wrap p-4 p-md-5">
+				<p style="font-family: 'Vazir';direction: rtl;text-align: center;color: red;">
+           {% if notif == 'error' %}
+           نام کاربری یا رمز اشتباه است
+           {% elif notif == 'DBerror' %}
+           مشکلی در ارتباط با پایگاه داده وجود دارد مجددا تلاش کنید
+           {% endif %}
+        </p>
+                <form action="{{url_for("index")}}" method="post" class="signin-form">
+                  <div class="form-group mt-3" style="font-family: 'Vazir';direction: rtl;text-align: right;">
+                    <input type="text" name="username" class="form-control" required />
+                    <label class="form-control-placeholder" for="username" style="padding-right: 10px;" >نام کاربری</label>
+                  </div>
+                  <div class="form-group" style="font-family: 'Vazir';direction: rtl;text-align: right;">
+                    <input id="password-field" name="password" type="password" class="form-control" required />
+                    <label class="form-control-placeholder" for="password" style="padding-right: 10px;" >رمزعبور</label>
+                    
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="form-control btn btn-primary rounded submit px-3" style="font-family: 'Vazir'; background-color: #3c8dbc;border: 1px solid #3c8dbc;">ورود</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+  </body>
+</html>

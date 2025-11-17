@@ -1,0 +1,129 @@
+{% extends 'dashboard.html' %}
+
+{% block title %}
+  تعریف هزینه
+{% endblock %}
+{% block content %}
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-4">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">تعریف هزینه</h3>
+          </div>
+          <!-- /.box-header -->
+          <!-- form start -->
+          <form role="form">
+            <div class="box-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">هزینه</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="دسته بندی" />
+              </div>
+              <div class="form-group">
+                <label>مرکز هزینه</label>
+                <select class="form-control" style="padding: 1px;height: 35px;">
+                  <option>مرکز 1</option>
+                  <option>مرکز 2</option>
+                  <option>مرکز 3</option>
+                  <option>مرکز 4</option>
+                  <option>مرکز 5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>دسته بندی</label>
+                <select class="form-control" style="padding: 1px;height: 35px;">
+                  <option>دسته بندی 1</option>
+                  <option>دسته بندی 2</option>
+                  <option>دسته بندی 3</option>
+                  <option>دسته بندی 4</option>
+                  <option>دسته بندی 5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">توضیحات</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="توضیحات" />
+              </div>
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary">ایجاد</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- ./col -->
+
+      <div class="col-md-8">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">لیست دسته بندی ها</h3>
+          </div>
+          <!-- /.box-header -->
+          <!-- form start -->
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>شناسه</th>
+                <th>هزینه</th>
+                <th>مرکز</th>
+                <th>دسته بندی</th>
+                <th>توضیحات</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="width: 2%">1</td>
+                <td style="width: 15%">شسی</td>
+                <td style="width: 15%">شسی</td>
+                <td style="width: 15%">شسی</td>
+                <td style="width: 25%">شسیشسی</td>
+                <td style="width: 5%">
+                  <form method="POST" action="" onsubmit="return confirm('آیا مطمئنی که می‌خوای حذفش کنی؟');">
+                    <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>شناسه</th>
+                <th>هزینه</th>
+                <th>مرکز</th>
+                <th>دسته بندی</th>
+                <th>توضیحات</th>
+                <th>حذف</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- ./col -->
+
+      <!-- ./col -->
+
+      <!-- ./col -->
+
+      <!-- ./col -->
+    </div>
+
+    <div class="row">
+      <!-- right col -->
+      <section class="col-lg-7 connectedSortable">
+        <!-- TO DO List -->
+
+        <!-- /.box -->
+      </section>
+      <!-- /.right col -->
+      <!-- left col (We are only adding the ID to make the widgets sortable) -->
+      <section class="col-lg-5 connectedSortable"></section>
+      <!-- left col -->
+    </div>
+    <!-- /.row (main row) -->
+  </section>
+{% endblock %}

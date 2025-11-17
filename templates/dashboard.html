@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}مدیریت هزینه ها{% endblock %}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+      name="viewport"
+    />
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../static/assets/css/bootstrap-theme.css" />
+    <!-- Bootstrap rtl -->
+    <link rel="stylesheet" href="../static/assets/css/rtl.css" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="../static/assets/vendor/font-awesome/css/font-awesome.min.css"
+    />
+    <!-- Ionicons -->
+    <link
+      rel="stylesheet"
+      href="../static/assets/vendor/Ionicons/css/ionicons.min.css"
+    />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../static/assets/css/AdminLTE.css" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../static/assets/css/skins/_all-skins.min.css" />
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="{{url_for('dashboard')}}" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini">پنل</span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>مدیریت هزینه ها</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+          <!-- Sidebar toggle button-->
+          <a
+            href="#"
+            class="sidebar-toggle"
+            data-toggle="push-menu"
+            role="button"
+          >
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- right side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar user panel -->
+          <div class="user-panel">
+            <div
+              class="pull-right info"
+              style="
+                min-height:0px;
+                position: relative;
+                padding: 20px 1px 1px 1px;
+                margin-right: -30px;
+              "
+            >
+              <p>مهدی موسی زاده</p>
+            </div>
+          </div>
+
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu" data-widget="tree">
+            <li class="active">
+              <a href="{{url_for('dashboard')}}">
+                <i class="fa fa-dashboard"></i> <span>داشبورد</span>
+              </a>
+            </li>
+
+            <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i> <span>هزینه ها</span>
+            <span class="pull-left-container">
+              <i class="fa fa-angle-right pull-left"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url_for('costCenters')}}"><i class="fa fa-circle-o"></i>مرکز هزینه</a></li>
+            <li><a href="{{url_for('costCategory')}}"><i class="fa fa-circle-o"></i>دسته بندی هزینه</a></li>
+            <li><a href="{{url_for('costExtend')}}"><i class="fa fa-circle-o"></i>تعریف هزینه</a></li>
+            <li><a href="{{url_for('costDefine')}}"><i class="fa fa-circle-o"></i>هزینه جدید</a></li>
+            <li><a href="{{url_for('costLists')}}"><i class="fa fa-circle-o"></i>لیست هزینه ها</a></li>
+            <li><a href="{{url_for('costReports')}}"><i class="fa fa-circle-o"></i>گزارشات هزینه ها</a></li>
+          </ul>
+        </li>
+            <li>
+              <a href="{{url_for('exit')}}"> <i class="fa fa-circle-o"></i> <span>خروج</span> </a>
+            </li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+      <!-- Content Wrapper. Contains page content -->
+    
+      <div class="content-wrapper">
+        {% block content %}
+          <section class="content">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-aqua">
+                <div class="inner">
+                  <h4>جمع هزینه یک هفته اخیر</h4>
+                  <p>20.000.000 ریال</p>
+                </div>
+                <div class="icon">
+                </div>
+              </div>
+            </div>
+            <!-- ./col -->
+           
+            <!-- ./col -->
+            
+            <!-- ./col -->
+            
+            <!-- ./col -->
+          </div>
+
+          <div class="row">
+            <!-- right col -->
+            <section class="col-lg-7 connectedSortable">
+              <!-- TO DO List -->
+              
+              <!-- /.box -->
+            </section>
+            <!-- /.right col -->
+            <!-- left col (We are only adding the ID to make the widgets sortable)-->
+            <section class="col-lg-5 connectedSortable"></section>
+            <!-- left col -->
+          </div>
+          <!-- /.row (main row) -->
+        </section>
+        {% endblock %}
+      </div>
+    
+      <!-- /.content-wrapper -->
+
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+          <li>
+            <a href="#control-sidebar-home-tab" data-toggle="tab"
+              ><i class="fa fa-home"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#control-sidebar-settings-tab" data-toggle="tab"
+              ><i class="fa fa-gears"></i
+            ></a>
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <!-- Home tab content -->
+          <div class="tab-pane" id="control-sidebar-home-tab">
+            <h3 class="control-sidebar-heading">فعالیت ها</h3>
+            <ul class="control-sidebar-menu">
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">تولد غلوم</h4>
+
+                    <p>۲۴ مرداد</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="menu-icon fa fa-user bg-yellow"></i>
+
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">
+                      آپدیت پروفایل سجاد
+                    </h4>
+
+                    <p>تلفن جدید (800)555-1234</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">
+                      نورا به خبرنامه پیوست
+                    </h4>
+
+                    <p>nora@example.com</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">
+                      کرون جابز اجرا شد
+                    </h4>
+
+                    <p>۵ ثانیه پیش</p>
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <!-- /.control-sidebar-menu -->
+
+            <h3 class="control-sidebar-heading">پیشرفت کارها</h3>
+            <ul class="control-sidebar-menu">
+              <li>
+                <a href="javascript:void(0)">
+                  <h4 class="control-sidebar-subheading">
+                    ساخت پوستر های تبلیغاتی
+                    <span class="label label-danger pull-left">70%</span>
+                  </h4>
+
+                  <div class="progress progress-xxs">
+                    <div
+                      class="progress-bar progress-bar-danger"
+                      style="width: 70%"
+                    ></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <h4 class="control-sidebar-subheading">
+                    آپدیت رزومه
+                    <span class="label label-success pull-left">95%</span>
+                  </h4>
+
+                  <div class="progress progress-xxs">
+                    <div
+                      class="progress-bar progress-bar-success"
+                      style="width: 95%"
+                    ></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <h4 class="control-sidebar-subheading">
+                    آپدیت لاراول
+                    <span class="label label-warning pull-left">50%</span>
+                  </h4>
+
+                  <div class="progress progress-xxs">
+                    <div
+                      class="progress-bar progress-bar-warning"
+                      style="width: 50%"
+                    ></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <h4 class="control-sidebar-subheading">
+                    بخش پشتیبانی سایت
+                    <span class="label label-primary pull-left">68%</span>
+                  </h4>
+
+                  <div class="progress progress-xxs">
+                    <div
+                      class="progress-bar progress-bar-primary"
+                      style="width: 68%"
+                    ></div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <!-- /.control-sidebar-menu -->
+          </div>
+          <!-- /.tab-pane -->
+          <!-- Stats tab content -->
+          <div class="tab-pane" id="control-sidebar-stats-tab">وضعیت</div>
+          <!-- /.tab-pane -->
+          <!-- Settings tab content -->
+          <div class="tab-pane" id="control-sidebar-settings-tab">
+            <form method="post">
+              <h3 class="control-sidebar-heading">تنظیمات عمومی</h3>
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  گزارش کنترلر پنل
+                  <input type="checkbox" class="pull-left" checked />
+                </label>
+
+                <p>ثبت تمامی فعالیت های مدیران</p>
+              </div>
+              <!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  ایمیل مارکتینگ
+                  <input type="checkbox" class="pull-left" checked />
+                </label>
+
+                <p>اجازه به کاربران برای ارسال ایمیل</p>
+              </div>
+              <!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  در دست تعمیرات
+                  <input type="checkbox" class="pull-left" checked />
+                </label>
+
+                <p>قرار دادن سایت در حالت در دست تعمیرات</p>
+              </div>
+              <!-- /.form-group -->
+
+              <h3 class="control-sidebar-heading">تنظیمات گفتگوها</h3>
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  آنلاین بودن من را نشان نده
+                  <input type="checkbox" class="pull-left" checked />
+                </label>
+              </div>
+              <!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  اعلان ها
+                  <input type="checkbox" class="pull-left" />
+                </label>
+              </div>
+              <!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  حذف تاریخته گفتگوهای من
+                  <a href="javascript:void(0)" class="text-red pull-left"
+                    ><i class="fa fa-trash-o"></i
+                  ></a>
+                </label>
+              </div>
+              <!-- /.form-group -->
+            </form>
+          </div>
+          <!-- /.tab-pane -->
+        </div>
+      </aside>
+      <!-- /.control-sidebar -->
+      <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery 3 -->
+    <script src="../static/assets/js/jquery.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge("uibutton", $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../static/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="../static/assets/js/adminlte.min.js"></script>
+  </body>
+</html>
