@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ثبت نام</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}" />
+  </head>
+  <body>
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row justify-content-center"></div>
+        <div class="row justify-content-center">
+          <div class="col-md-7 col-lg-5">
+            <div class="wrap">
+              <div class="img" style="background-image: url({{ url_for('static', filename='assets/img/bg-1.jpg') }});"></div>
+              <p style="font-family: 'Vazir';direction: rtl;text-align: center;color: #3c8dbc;font-size: xx-large;">ثبت نام</p>
+
+              <div class="login-wrap p-4 p-md-5" style="margin-top: -60px;">
+                <p style="font-family: 'Vazir';direction: rtl;text-align: center;color: red;"></p>
+                <form action="{{ url_for('register') }}" method="post" class="signin-form" id="myForm">
+                  <div class="form-group mt-3" style="font-family: 'Vazir';direction: rtl;text-align: right;padding-bottom: 5px;">
+                    <input type="text" name="fname" class="form-control" required />
+                    <label class="form-control-placeholder" for="fname" style="padding-right: 10px;">نام</label>
+                  </div>
+
+                  <div class="form-group mt-3" style="font-family: 'Vazir';direction: rtl;text-align: right;padding-bottom: 5px;">
+                    <input type="text" name="lname" class="form-control" required />
+                    <label class="form-control-placeholder" for="lname" style="padding-right: 10px;">نام خانوادگی</label>
+                  </div>
+
+                  <div class="form-group mt-3" style="font-family: 'Vazir';direction: rtl;text-align: right;padding-bottom: 5px;">
+                    <input type="text" name="username" class="form-control" required />
+                    <label class="form-control-placeholder" for="username" style="padding-right: 10px;">نام کاربری</label>
+                  </div>
+
+                  <div class="form-group" style="font-family: 'Vazir';direction: rtl;text-align: right;padding-bottom: 5px;">
+                    <input id="password" name="password" type="password" class="form-control" required />
+                    <label class="form-control-placeholder" for="password" style="padding-right: 10px;">رمزعبور</label>
+                  </div>
+
+                  <div class="form-group" style="font-family: 'Vazir';direction: rtl;text-align: right;padding-bottom: 5px;">
+                    <input id="confirmPassword" name="confirmPassword" type="password" class="form-control" required />
+                    <label class="form-control-placeholder" for="confirmPassword" style="padding-right: 10px;">تکرار رمزعبور</label>
+                    <span class="error-message"></span>
+                  </div>
+
+                  <div class="form-group" style="font-family: 'Vazir';direction: rtl;text-align: right;padding-bottom: 5px;">
+                    <input id="password-field" name="Description" type="text" class="form-control" required />
+                    <label class="form-control-placeholder" for="Description" style="padding-right: 10px;">توضیحات</label>
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" class="form-control btn btn-primary rounded submit px-3" style="font-family: 'Vazir'; background-color: #3c8dbc;border: 1px solid #3c8dbc;">ثبت نام</button>
+                  </div>
+                </form>
+                <button onclick="window.location.href='{{ url_for('index') }}'" class="form-control btn btn-primary rounded submit px-3" style="font-family: 'Vazir'; background-color: #3cbc82ff;border: 1px solid #3cbc82ff;">برگشت</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const pass = document.getElementById('password')
+      const confirmPass = document.getElementById('confirmPassword')
+      const form = document.getElementById('myForm')
+      
+      form.addEventListener('submit', function (e) {
+        const errorMsg = confirmPass.parentElement.querySelector('.error-message')
+      
+        if (pass.value !== confirmPass.value) {
+          e.preventDefault() // جلوگیری از ارسال
+          confirmPass.classList.add('error')
+          errorMsg.textContent = 'رمز عبور ها یکسان نیستند'
+        } else {
+          confirmPass.classList.remove('error')
+          errorMsg.textContent = ''
+        }
+      })
+      
+      confirmPass.addEventListener('input', function () {
+        const errorMsg = confirmPass.parentElement.querySelector('.error-message')
+        if (pass.value === confirmPass.value) {
+          confirmPass.classList.remove('error')
+          errorMsg.textContent = ''
+        }
+      })
+    </script>
+  </body>
+</html>
