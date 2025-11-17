@@ -47,50 +47,59 @@ def login_required(f):
 
 
 
-
+#### notFound
 @app.errorhandler(404)
 def notFound(error):
     return render_template('404.html')
 
+#### dashboard
 @app.route("/dashboard")
 @login_required
 def dashboard():
     return render_template('dashboard.html')
 
-    
+#### costCenters
 @app.route("/dashboard/costCenters")
 def costCenters():
     return render_template('costCenters.html')
 
+#### costCategory
 @app.route("/dashboard/costCategory")
 def costCategory():
     return render_template('costCategory.html')
 
+#### costExtend
 @app.route("/dashboard/costExtend")
 def costExtend():
     return render_template('costExtend.html')
 
+#### costDefine
 @app.route("/dashboard/costDefine")
 def costDefine():
     return render_template('costDefine.html')
 
+#### costLists
 @app.route("/dashboard/costLists")
 def costLists():
     return render_template('costLists.html')
 
+#### costReports
 @app.route("/dashboard/costReports")
 def costReports():
     return render_template('costReports.html')
 
+#### exit
 @app.route("/exit")
 def exit():
     session.clear()
     return redirect(url_for('index'))
 
+#### register
 @app.route("/register")
 def register():
     return render_template('register.html')
 
+#### index
 @app.route("/" , methods=["GET","POST"])
 def index():
     if request.method == "POST":
@@ -111,6 +120,7 @@ def index():
             return render_template('index.html',notif = 'error')
         
     return render_template('index.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
