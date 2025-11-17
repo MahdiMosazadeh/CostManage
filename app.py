@@ -131,19 +131,19 @@ def index():
         username = request.form["username"]
         password = request.form["password"]
     
-        try:
-            user = User.query.filter_by(username = username , password = password).first()
-        except:
-            return render_template('index.html',notif = 'DBerror')
-    
-        if user:
-            session["user_id"] = user.id
-            session["username"] = user.username
-            
-            return redirect(url_for('dashboard'))
-        else :
-            return render_template('index.html',notif = 'error')
+        user = User.query.filter_by(username = username).first()
         
+        if user:
+            try:
+                Argon.verify(user.password, password)
+                session["user_id"] = user.id
+                session["username"] = user.username
+                return redirect(url_for("dashboard"))
+            except VerifyMismatchError:
+                return render_template("index.html", notif="error")
+        else:
+             return render_template("index.html", notif="error")
+         
     return render_template('index.html')
 
 
