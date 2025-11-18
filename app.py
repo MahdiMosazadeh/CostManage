@@ -58,37 +58,46 @@ def notFound(error):
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    global user
+    user = User.query.filter_by(id = session["user_id"]).first()
+    
+    return render_template('dashboard.html', userInfo = user)
 
 #### costCenters
 @app.route("/dashboard/costCenters")
+@login_required
 def costCenters():
-    return render_template('costCenters.html')
+    return render_template('costCenters.html', userInfo = user)
 
 #### costCategory
 @app.route("/dashboard/costCategory")
+@login_required
 def costCategory():
-    return render_template('costCategory.html')
+    return render_template('costCategory.html', userInfo = user)
 
 #### costExtend
 @app.route("/dashboard/costExtend")
+@login_required
 def costExtend():
-    return render_template('costExtend.html')
+    return render_template('costExtend.html', userInfo = user)
 
 #### costDefine
 @app.route("/dashboard/costDefine")
+@login_required
 def costDefine():
-    return render_template('costDefine.html')
+    return render_template('costDefine.html', userInfo = user)
 
 #### costLists
 @app.route("/dashboard/costLists")
+@login_required
 def costLists():
-    return render_template('costLists.html')
+    return render_template('costLists.html', userInfo = user)
 
 #### costReports
 @app.route("/dashboard/costReports")
+@login_required
 def costReports():
-    return render_template('costReports.html')
+    return render_template('costReports.html', userInfo = user)
 
 #### exit
 @app.route("/exit")
