@@ -39,7 +39,6 @@ class User(DB.Model):
         passive_deletes=True
     )
 
-
 class CostCenter(DB.Model):
     __tablename__ = 'costCenter'
     __table_args__ = {
@@ -74,7 +73,6 @@ class CostCenter(DB.Model):
         passive_deletes=True
     )
 
-
 class CostCategory(DB.Model):
     __tablename__ = 'costCategory'
     __table_args__ = {
@@ -100,7 +98,6 @@ class CostCategory(DB.Model):
         cascade="all, delete-orphan",
         passive_deletes=True
     )
-
 
 class CostExtend(DB.Model):
     __tablename__ = 'costExtend'
@@ -134,7 +131,6 @@ class CostExtend(DB.Model):
         passive_deletes=True
     )
 
-
 class CostDefine(DB.Model):
     __tablename__ = 'costDefine'
     __table_args__ = {
@@ -156,9 +152,13 @@ class CostDefine(DB.Model):
 
 with app.app_context():
     DB.create_all()
-    
-    
-    
+  
+################    CURD Functions    ################
+
+
+
+
+  
 ################    Views    ################
 
 def login_required(f):
@@ -168,8 +168,6 @@ def login_required(f):
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
-
-
 
 #### notFound
 @app.errorhandler(404)
