@@ -23,14 +23,136 @@ class User(DB.Model):
         'mysql_charset': 'utf8mb4',
         'mysql_collate': 'utf8mb4_unicode_ci'
     }
-    
-    id = DB.Column(DB.Integer , primary_key = True)
-    username = DB.Column(DB.String(200))
-    password = DB.Column(DB.String(200))
+
+    id = DB.Column(DB.Integer, primary_key=True)
     fname = DB.Column(DB.String(200))
     lname = DB.Column(DB.String(200))
+    username = DB.Column(DB.String(200), unique=True, nullable=False)
+    password = DB.Column(DB.String(200), nullable=False)
     description = DB.Column(DB.String(500))
-    
+
+    # یک کاربر چندین CostCenter دارد
+    cost_centers = DB.relationship(
+        "CostCenter",
+        backref="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True
+    )
+
+
+class CostCenter(DB.Model):
+    __tablename__ = 'costCenter'
+    __table_args__ = {
+        'mysql_charset': 'utf8mb4',
+        'mysql_collate': 'utf8mb4_unicode_ci'
+    }
+
+    id = DB.Column(DB.Integer, primary_key=True)
+
+    user_id = DB.Column(
+        DB.Integer,
+        DB.ForeignKey('user.id', ondelete="CASCADE"),
+        nullable=False
+    )
+
+    name = DB.Column(DB.String(120), nullable=False)
+    description = DB.Column(DB.Text)
+
+    # هر CostCenter چندین CostCategory دارد
+    cost_categories = DB.relationship(
+        "CostCategory",
+        backref="cost_center",
+        cascade="all, delete-orphan",
+        passive_deletes=True
+    )
+
+    # هر CostCenter چندین CostExtend دارد
+    cost_extends = DB.relationship(
+        "CostExtend",
+        backref="cost_center",
+        cascade="all, delete-orphan",
+        passive_deletes=True
+    )
+
+
+class CostCategory(DB.Model):
+    __tablename__ = 'costCategory'
+    __table_args__ = {
+        'mysql_charset': 'utf8mb4',
+        'mysql_collate': 'utf8mb4_unicode_ci'
+    }
+
+    id = DB.Column(DB.Integer, primary_key=True)
+
+    costCenter_id = DB.Column(
+        DB.Integer,
+        DB.ForeignKey('costCenter.id', ondelete="CASCADE"),
+        nullable=False
+    )
+
+    name = DB.Column(DB.String(120), nullable=False)
+    description = DB.Column(DB.Text)
+
+    # هر Category چندین CostExtend دارد
+    cost_extends = DB.relationship(
+        "CostExtend",
+        backref="cost_category",
+        cascade="all, delete-orphan",
+        passive_deletes=True
+    )
+
+
+class CostExtend(DB.Model):
+    __tablename__ = 'costExtend'
+    __table_args__ = {
+        'mysql_charset': 'utf8mb4',
+        'mysql_collate': 'utf8mb4_unicode_ci'
+    }
+
+    id = DB.Column(DB.Integer, primary_key=True)
+
+    costCenter_id = DB.Column(
+        DB.Integer,
+        DB.ForeignKey('costCenter.id', ondelete="CASCADE"),
+        nullable=False
+    )
+
+    costCategory_id = DB.Column(
+        DB.Integer,
+        DB.ForeignKey('costCategory.id', ondelete="CASCADE"),
+        nullable=False
+    )
+
+    name = DB.Column(DB.String(120), nullable=False)
+    description = DB.Column(DB.Text)
+
+    # هر Extend چندین CostDefine دارد
+    cost_defines = DB.relationship(
+        "CostDefine",
+        backref="cost_extend",
+        cascade="all, delete-orphan",
+        passive_deletes=True
+    )
+
+
+class CostDefine(DB.Model):
+    __tablename__ = 'costDefine'
+    __table_args__ = {
+        'mysql_charset': 'utf8mb4',
+        'mysql_collate': 'utf8mb4_unicode_ci'
+    }
+
+    id = DB.Column(DB.Integer, primary_key=True)
+
+    costExtend_id = DB.Column(
+        DB.Integer,
+        DB.ForeignKey('costExtend.id', ondelete="CASCADE"),
+        nullable=False
+    )
+
+    debit = DB.Column(DB.Float, nullable=False)
+    create_time = DB.Column(DB.Integer)
+
 
 with app.app_context():
     DB.create_all()
