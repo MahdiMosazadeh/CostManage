@@ -155,7 +155,15 @@ with app.app_context():
   
 ################    CURD Functions    ################
 
-
+def insertCostCenter(user_id , name , description=None):
+    create_cost_center = CostCenter (
+        user_id=session[user_id],
+        name=name,
+        description=description
+        )
+    
+    DB.session.add(create_cost_center)
+    DB.session.commit()
 
 
   
