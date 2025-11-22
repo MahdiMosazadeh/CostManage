@@ -17,7 +17,7 @@
             <div class="box-body">
               <div class="form-group">
                 <label for="costCenterName">نام مرکز</label>
-                <input type="text" class="form-control" id="costCenterName" name="costCenterName" placeholder="نام مرکز" />
+                <input type="text" class="form-control" id="costCenterName" name="costCenterName" placeholder="نام مرکز" required />
               </div>
               <div class="form-group">
                 <label for="costCenterDesc">توضیحات</label>
@@ -57,7 +57,7 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>شناسه</th>
+                <th>ردیف</th>
                 <th>نام مرکز</th>
                 <th>توضیحات</th>
                 <th>حذف</th>
@@ -66,13 +66,13 @@
             <tbody>
               {% for costCenter in selectCC %}
                 <tr>
-                  <td style="width: 2%">{{ costCenter.id }}</td>
+                  <td style="width: 2%">{{ loop.index }}</td>
                   <td style="width: 15%">{{ costCenter.name }}</td>
                   <td style="width: 25%">{{ costCenter.description }}</td>
                   <td style="width: 5%">
                     <form method="POST" action="{{ url_for('costCenters') }}" onsubmit="return confirm('آیا مطمئنی که می‌خوای حذفش کنی؟');">
                       <input type="hidden" value="{{ costCenter.id }}" name="cc_id" />
-                      <button type="submit" name="submitDeleteCostCenter" class="btn btn-danger btn-sm">🗑️</button>
+                      <button type="submit" name="submitDeleteCostCenter" class="btn btn-danger btn-sm" style="background-color: #ffffff;">🗑️</button>
                     </form>
                   </td>
                 </tr>
@@ -80,7 +80,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <th>شناسه</th>
+                <th>ردیف</th>
                 <th>نام مرکز</th>
                 <th>توضیحات</th>
                 <th>حذف</th>
