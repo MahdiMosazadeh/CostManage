@@ -197,10 +197,11 @@ def costCenters():
                 DB.session.add(cc)
                 DB.session.commit()
                 flash("success")
+                return redirect(url_for("costCenters"))
             except:
                 #return render_template('costCenters.html', userInfo = user , ccInsert="InsertError" , selectCC = selectCC)
                 flash("error")
-            return redirect(url_for("costCenters"))
+                return redirect(url_for("costCenters"))
             
         # Delete Cost Center In DB
         if "submitDeleteCostCenter" in request.form:
@@ -216,11 +217,45 @@ def costCenters():
     return render_template('costCenters.html', userInfo = user , selectCC = selectCC)
 
 #### costCategory
-@app.route("/dashboard/costCategory")
+@app.route("/dashboard/costCategory" , methods = ["POST" , "GET"])
 @login_required
 def costCategory():
     user = User.query.filter_by(id = session["user_id"]).first()
-    return render_template('costCategory.html', userInfo = user)
+    costCenterList = CostCenter.query.filter_by(user_id = session.get("user_id")).all()
+    categoryList = CostCategory.query.all()
+    
+    if request.method == "POST":
+        if "insertCostCategory" in request.form:
+            try:
+                categoryName = request.form.get("categoryName")
+                categoryCostCenterID = request.form.get("costCenterID")
+                categoryDescription = request.form.get("categoryDescription")
+                
+                categoryAdd = CostCategory(
+                    costCenter_id = categoryCostCenterID ,
+                    name = categoryName ,
+                    description = categoryDescription
+                )
+                DB.session.add(categoryAdd)
+                DB.session.commit()
+                flash("SuccessAddCategory")
+                return redirect(url_for("costCategory"))
+            except:
+                flash("ErrorAddCategory")
+                return redirect(url_for("costCategory"))
+            
+        elif "deleteCostCategory" in request.form:
+            try:
+                deleteCategory = CostCategory.query.filter_by(id = request.form.get("cg_id")).first()
+                DB.session.delete(deleteCategory)
+                DB.session.commit()
+                flash("SuccessDeleteCategory")
+                return redirect(url_for("costCategory"))
+            except:
+                flash("ErrorDeleteCategory")
+                return redirect(url_for("costCategory"))
+
+    return render_template('costCategory.html', userInfo = user , costCenterList = costCenterList , categoryList = categoryList)
 
 #### costExtend
 @app.route("/dashboard/costExtend")
