@@ -15,31 +15,40 @@
           </div>
           <!-- /.box-header -->
           <!-- form start -->
-          <form role="form">
+          <form role="form" method="POST">
             <div class="box-body">
               <div class="form-group">
-                <label for="exampleInputEmail1">نام دسته بندی</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="دسته بندی" />
+                <label for="categoryName">نام دسته بندی</label>
+                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="دسته بندی" required />
               </div>
               <div class="form-group">
                   <label>مرکز هزینه</label>
-                  <select class="form-control" style="padding: 1px;height: 35px;">
-                    <option>مرکز 1</option>
-                    <option>مرکز 2</option>
-                    <option>مرکز 3</option>
-                    <option>مرکز 4</option>
-                    <option>مرکز 5</option>
+                  <select class="form-control" name="costCenterID" style="padding: 1px;height: 35px;">
+                    {% for cc in costCenterList %}
+                      <option value="{{cc.id}}">{{cc.name}}</option>
+                    {% endfor %}
                   </select>
                 </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">توضیحات</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="توضیحات" />
+                <label for="categoryDescription">توضیحات</label>
+                <input type="text" class="form-control" id="categoryDescription" name="categoryDescription" placeholder="توضیحات" required />
               </div>
             </div>
             <!-- /.box-body -->
 
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary">ایجاد</button>
+              <button type="submit" name="insertCostCategory" class="btn btn-primary">ایجاد</button>
+              {% with messages=get_flashed_messages() %}
+                {% if messages %}
+                  {% for msg in messages %}
+                    {% if msg == 'SuccessAddCategory' %}
+                      <p style="color:green;display: inline;margin-right: 20px;">ایجاد شد</p>
+                    {% elif msg == 'ErrorAddCategory' %}
+                      <p style="color:red;display: inline;margin-right: 20px;">مشکلی وجود دارد</p>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
             </div>
           </form>
         </div>
@@ -57,31 +66,34 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>شناسه</th>
+                <th>ردیف</th>
                 <th>دسته بندی</th>
-                <th>مرکز</th>
+                <th>مرکز هزینه</th>
                 <th>توضیحات</th>
                 <th>حذف</th>
               </tr>
             </thead>
             <tbody>
+              {% for category in categoryList %}
               <tr>
-                <td style="width: 2%">1</td>
-                <td style="width: 15%">شسی</td>
-                <td style="width: 15%">شسی</td>
-                <td style="width: 25%">شسیشسی</td>
+                <td style="width: 2%">{{loop.index}}</td>
+                <td style="width: 15%">{{category.name}}</td>
+                <td style="width: 15%">{{ category.cost_center.name }}</td>
+                <td style="width: 25%">{{category.description}}</td>
                 <td style="width: 5%">
                   <form method="POST" action="" onsubmit="return confirm('آیا مطمئنی که می‌خوای حذفش کنی؟');">
-                    <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                    <input type="hidden" value="{{ category.id }}" name="cg_id" />
+                    <button type="submit" class="btn btn-danger btn-sm" name="deleteCostCategory" style="background-color: #ffffff;">🗑️</button>
                   </form>
                 </td>
               </tr>
+              {% endfor %}
             </tbody>
             <tfoot>
               <tr>
-                <th>شناسه</th>
+                <th>ردیف</th>
                 <th>دسته بندی</th>
-                <th>مرکز</th>
+                <th>مرکز هزینه</th>
                 <th>توضیحات</th>
                 <th>حذف</th>
               </tr>
