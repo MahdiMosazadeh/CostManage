@@ -1,4 +1,4 @@
-from flask import Flask , render_template , redirect , url_for , request , session
+from flask import Flask , render_template , redirect , url_for , request , session , flash
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 from functools import wraps
 from argon2 import PasswordHasher
@@ -155,16 +155,6 @@ with app.app_context():
   
 ################    CURD Functions    ################
 
-def insertCostCenter(user_id , name , description=None):
-    create_cost_center = CostCenter (
-        user_id=session[user_id],
-        name=name,
-        description=description
-        )
-    
-    DB.session.add(create_cost_center)
-    DB.session.commit()
-
 
   
 ################    Views    ################
@@ -186,45 +176,78 @@ def notFound(error):
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    global user
     user = User.query.filter_by(id = session["user_id"]).first()
-    
     return render_template('dashboard.html', userInfo = user)
 
 #### costCenters
-@app.route("/dashboard/costCenters")
+@app.route("/dashboard/costCenters" , methods = ["POST" , "GET"])
 @login_required
 def costCenters():
-    return render_template('costCenters.html', userInfo = user)
+    user = User.query.filter_by(id = session["user_id"]).first()
+    selectCC = CostCenter.query.filter_by(user_id=user.id).all()
+    
+    if request.method == "POST":
+        # Insert Cost Center In DB
+        if "submitCostCenter" in request.form:
+            try:
+                cc = CostCenter(user_id = user.id ,
+                                name = request.form["costCenterName"],
+                                description = request.form["costCenterDesc"]
+                                )
+                DB.session.add(cc)
+                DB.session.commit()
+                flash("success")
+            except:
+                #return render_template('costCenters.html', userInfo = user , ccInsert="InsertError" , selectCC = selectCC)
+                flash("error")
+            return redirect(url_for("costCenters"))
+            
+        # Delete Cost Center In DB
+        if "submitDeleteCostCenter" in request.form:
+            try:
+                deleteCostCenter = CostCenter.query.filter_by(id = request.form["cc_id"]).first()
+                DB.session.delete(deleteCostCenter)
+                DB.session.commit()
+                return redirect(url_for("costCenters"))
+            except:
+                return redirect(url_for("costCenters"))
+            
+            
+    return render_template('costCenters.html', userInfo = user , selectCC = selectCC)
 
 #### costCategory
 @app.route("/dashboard/costCategory")
 @login_required
 def costCategory():
+    user = User.query.filter_by(id = session["user_id"]).first()
     return render_template('costCategory.html', userInfo = user)
 
 #### costExtend
 @app.route("/dashboard/costExtend")
 @login_required
 def costExtend():
+    user = User.query.filter_by(id = session["user_id"]).first()
     return render_template('costExtend.html', userInfo = user)
 
 #### costDefine
 @app.route("/dashboard/costDefine")
 @login_required
 def costDefine():
+    user = User.query.filter_by(id = session["user_id"]).first()
     return render_template('costDefine.html', userInfo = user)
 
 #### costLists
 @app.route("/dashboard/costLists")
 @login_required
 def costLists():
+    user = User.query.filter_by(id = session["user_id"]).first()
     return render_template('costLists.html', userInfo = user)
 
 #### costReports
 @app.route("/dashboard/costReports")
 @login_required
 def costReports():
+    user = User.query.filter_by(id = session["user_id"]).first()
     return render_template('costReports.html', userInfo = user)
 
 #### exit
