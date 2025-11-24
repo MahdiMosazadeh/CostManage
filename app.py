@@ -258,11 +258,42 @@ def costCategory():
     return render_template('costCategory.html', userInfo = user , costCenterList = costCenterList , categoryList = categoryList)
 
 #### costExtend
-@app.route("/dashboard/costExtend")
+@app.route("/dashboard/costExtend" , methods = ["POST" , "GET"])
 @login_required
 def costExtend():
     user = User.query.filter_by(id = session["user_id"]).first()
-    return render_template('costExtend.html', userInfo = user)
+    costCenterList = CostCenter.query.filter_by(user_id = session["user_id"]).all() 
+    costCatergoryList = CostCategory.query.join(CostCenter , CostCenter.id == CostCategory.costCenter_id).filter(CostCenter.user_id==session["user_id"]).all()
+    costExtendList = CostExtend.query.join(CostCenter , CostCenter.id == CostExtend.costCenter_id).join(CostCategory , CostCategory.id == CostExtend.costCategory_id).filter(CostCenter.user_id==session["user_id"]).all()
+    
+    if request.method == "POST" :
+        if "insertCostExtend" in request.form:
+            try :
+                costExtendName = request.form.get("costExtendName")
+                costExtendCostCenterID = request.form.get("costExtendCostCenterID")
+                costExtendCostCategoryID = request.form.get("costExtendCostCategoryID")
+                costExtendDescription = request.form.get("costExtendDescription")
+                
+                insertCostExtend = CostExtend(
+                    costCenter_id = costExtendCostCenterID,
+                    costCategory_id = costExtendCostCategoryID,
+                    name = costExtendName,
+                    description = costExtendDescription
+                )
+                DB.session.add(insertCostExtend)
+                DB.session.commit()
+                flash("insertCostExtendSuccess")
+                return redirect(url_for("costExtend"))
+            except:
+                flash("insertCostExtendError")
+                return redirect(url_for("costExtend"))   
+            
+    return render_template('costExtend.html',
+                           userInfo = user,
+                           costCenterList= costCenterList,
+                           costCatergoryList = costCatergoryList,
+                           costExtendList = costExtendList
+                           )
 
 #### costDefine
 @app.route("/dashboard/costDefine")
