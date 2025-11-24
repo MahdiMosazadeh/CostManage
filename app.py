@@ -287,6 +287,15 @@ def costExtend():
             except:
                 flash("insertCostExtendError")
                 return redirect(url_for("costExtend"))   
+        elif "deleteCostExtend" in request.form:
+            try:
+                deleteCostExtend = request.form.get("ce_id")
+                deleteCostExtendQuery = CostExtend.query.filter_by(id = deleteCostExtend).first()
+                DB.session.delete(deleteCostExtendQuery)
+                DB.session.commit()
+                return redirect(url_for("costExtend"))
+            except:
+                return redirect(url_for("costExtend"))
             
     return render_template('costExtend.html',
                            userInfo = user,
@@ -300,7 +309,12 @@ def costExtend():
 @login_required
 def costDefine():
     user = User.query.filter_by(id = session["user_id"]).first()
-    return render_template('costDefine.html', userInfo = user)
+    costExtendList = CostExtend.query.join(CostCenter , CostCenter.id == CostExtend.costCenter_id).join(CostCategory , CostCategory.id == CostExtend.costCategory_id).filter(CostCenter.user_id==session["user_id"]).all()
+    
+    return render_template('costDefine.html',
+                           userInfo = user,
+                           costExtendList = costExtendList
+                           )
 
 #### costLists
 @app.route("/dashboard/costLists")

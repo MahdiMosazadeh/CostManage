@@ -20,17 +20,29 @@
               <div class="form-group">
                 <label>هزینه</label>
                 <select class="form-control" style="padding: 1px;height: 35px;">
-                  <option>هزینه 1</option>
-                  <option>هزینه 2</option>
-                  <option>هزینه 3</option>
-                  <option>هزینه 4</option>
-                  <option>هزینه 5</option>
+                  {% for costExtend in costExtendList %}
+                    <option value="{{ costExtend.id }}">{{ costExtend.name }}</option>
+                  {% endfor %}
                 </select>
               </div>
 
               <div class="form-group">
+                <label for="exampleInputPassword1">مبلغ</label>
+                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="مبلغ (ریال)" />
+              </div>
+
+              <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+              <div class="form-group">
+                <label>تاریخ</label>
+                <input type="text" class="form-control" id="datePicker" placeholder="تاریخ" />
+              </div>
+
+              <div class="form-group">
                 <label for="exampleInputPassword1">توضیحات</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="توضیحات" />
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="توضیحات" />
               </div>
             </div>
             <!-- /.box-body -->
@@ -41,6 +53,14 @@
           </form>
         </div>
       </div>
+
+      <script>
+        $(document).ready(function () {
+          $('#datePicker').persianDatepicker({
+            format: 'YYYY/MM/DD'
+          })
+        })
+      </script>
       <!-- ./col -->
 
       <!-- ./col -->
