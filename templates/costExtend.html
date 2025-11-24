@@ -15,41 +15,50 @@
           </div>
           <!-- /.box-header -->
           <!-- form start -->
-          <form role="form">
+          <form role="form" method="POST">
             <div class="box-body">
               <div class="form-group">
-                <label for="exampleInputEmail1">هزینه</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="دسته بندی" />
+                <label for="costExtendName" name="costExtendName">هزینه</label>
+                <input type="text" class="form-control" id="costExtendName" name="costExtendName" placeholder="نام هزینه" />
               </div>
               <div class="form-group">
                 <label>مرکز هزینه</label>
-                <select class="form-control" style="padding: 1px;height: 35px;">
-                  <option>مرکز 1</option>
-                  <option>مرکز 2</option>
-                  <option>مرکز 3</option>
-                  <option>مرکز 4</option>
-                  <option>مرکز 5</option>
+                <select class="form-control" name="costExtendCostCenterID" style="padding: 1px;height: 35px;">
+                  {% for cc in costCenterList %}
+                    <option value="{{cc.id}}">{{cc.name}}</option>
+                  {% endfor %}
                 </select>
               </div>
               <div class="form-group">
                 <label>دسته بندی</label>
-                <select class="form-control" style="padding: 1px;height: 35px;">
-                  <option>دسته بندی 1</option>
-                  <option>دسته بندی 2</option>
-                  <option>دسته بندی 3</option>
-                  <option>دسته بندی 4</option>
-                  <option>دسته بندی 5</option>
+                <select class="form-control" name="costExtendCostCategoryID" style="padding: 1px;height: 35px;">
+                  {% for cg in costCatergoryList %}
+                    <option value="{{cg.id}}">{{cg.name}}</option>
+                  {% endfor %}
                 </select>
               </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">توضیحات</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="توضیحات" />
+                <label for="costExtendDescription" name="costExtendDescription" >توضیحات</label>
+                <input type="text" class="form-control" id="costExtendDescription" name="costExtendDescription" placeholder="توضیحات" />
               </div>
             </div>
             <!-- /.box-body -->
 
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary">ایجاد</button>
+              <button type="submit" name="insertCostExtend" class="btn btn-primary">ایجاد</button>
+
+              {% with messages=get_flashed_messages() %}
+                {% if messages %}
+                  {% for msg in messages %}
+                    {% if msg == 'insertCostExtendSuccess' %}
+                      <p style="color:green;display: inline;margin-right: 20px;">ایجاد شد</p>
+                    {% elif msg == 'insertCostExtendError' %}
+                      <p style="color:red;display: inline;margin-right: 20px;">مشکلی وجود دارد</p>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
+
             </div>
           </form>
         </div>
@@ -60,7 +69,7 @@
         <!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">لیست دسته بندی ها</h3>
+            <h3 class="box-title">لیست  هزینه</h3>
           </div>
           <!-- /.box-header -->
           <!-- form start -->
@@ -76,18 +85,21 @@
               </tr>
             </thead>
             <tbody>
+              {% for ce in costExtendList %}
               <tr>
-                <td style="width: 2%">1</td>
-                <td style="width: 15%">شسی</td>
-                <td style="width: 15%">شسی</td>
-                <td style="width: 15%">شسی</td>
-                <td style="width: 25%">شسیشسی</td>
+                <td style="width: 2%">{{ce.id}}</td>
+                <td style="width: 15%">{{ce.name}}</td>
+                <td style="width: 15%">{{ce.cost_center.name}}</td>
+                <td style="width: 15%">{{ce.cost_category.name}}</td>
+                <td style="width: 25%">{{ce.description}}</td>
                 <td style="width: 5%">
                   <form method="POST" action="" onsubmit="return confirm('آیا مطمئنی که می‌خوای حذفش کنی؟');">
-                    <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                    <input type="hidden" value="{{ ce.id }}" name="ce_id" />
+                    <button type="submit" class="btn btn-danger btn-sm" name="deleteCostExtend" style="background-color: #ffffff;">🗑️</button>
                   </form>
                 </td>
               </tr>
+              {% endfor %}
             </tbody>
             <tfoot>
               <tr>
