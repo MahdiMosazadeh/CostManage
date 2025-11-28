@@ -15,11 +15,11 @@
           </div>
           <!-- /.box-header -->
           <!-- form start -->
-          <form role="form">
+          <form role="form" method="POST">
             <div class="box-body">
               <div class="form-group">
                 <label>هزینه</label>
-                <select class="form-control" style="padding: 1px;height: 35px;">
+                <select class="form-control" name="costExtendID" style="padding: 1px;height: 35px;">
                   {% for costExtend in costExtendList %}
                     <option value="{{ costExtend.id }}">{{ costExtend.name }}</option>
                   {% endfor %}
@@ -27,8 +27,8 @@
               </div>
 
               <div class="form-group">
-                <label for="exampleInputPassword1">مبلغ</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="مبلغ (ریال)" />
+                <label for="Debit" name="debit">مبلغ</label>
+                <input type="number" class="form-control" id="Debit" name="debit" placeholder="مبلغ (ریال)" />
               </div>
 
               <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -37,18 +37,24 @@
 
               <div class="form-group">
                 <label>تاریخ</label>
-                <input type="text" class="form-control" id="datePicker" placeholder="تاریخ" />
+                <input type="text" class="form-control" id="datePicker" name="debitDate" placeholder="تاریخ" />
               </div>
 
-              <div class="form-group">
-                <label for="exampleInputPassword1">توضیحات</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="توضیحات" />
-              </div>
-            </div>
             <!-- /.box-body -->
 
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary">ایجاد</button>
+              <button type="submit" name="insertCostDefine" class="btn btn-primary">ایجاد</button>
+              {% with messages=get_flashed_messages() %}
+                {% if messages %}
+                  {% for msg in messages %}
+                    {% if msg == 'insertCostDefineSuccess' %}
+                      <p style="color:green;display: inline;margin-right: 20px;">ایجاد شد</p>
+                    {% elif msg == 'insertCostDefineError' %}
+                      <p style="color:red;display: inline;margin-right: 20px;">مشکلی وجود دارد</p>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
             </div>
           </form>
         </div>
