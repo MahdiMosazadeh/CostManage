@@ -147,7 +147,7 @@ class CostDefine(DB.Model):
     )
 
     debit = DB.Column(DB.Float, nullable=False)
-    create_time = DB.Column(DB.Integer)
+    create_date = DB.Column(DB.String(20))
 
 
 with app.app_context():
@@ -305,11 +305,32 @@ def costExtend():
                            )
 
 #### costDefine
-@app.route("/dashboard/costDefine")
+@app.route("/dashboard/costDefine" , methods = ["POST" , "GET"])
 @login_required
 def costDefine():
     user = User.query.filter_by(id = session["user_id"]).first()
     costExtendList = CostExtend.query.join(CostCenter , CostCenter.id == CostExtend.costCenter_id).join(CostCategory , CostCategory.id == CostExtend.costCategory_id).filter(CostCenter.user_id==session["user_id"]).all()
+    
+    if request.method == "POST":
+        if "insertCostDefine" in request.form:
+            costExtendID = request.form.get("costExtendID")
+            costDebit = request.form.get("debit")
+            debitDate = request.form.get("debitDate")
+            
+            try:
+                insertCostDefine = CostDefine(costExtend_id=costExtendID,
+                                              debit=costDebit,
+                                              create_date=debitDate
+                                              )
+                DB.session.add(insertCostDefine)
+                DB.session.commit()
+                flash("insertCostDefineSuccess")
+                return redirect(url_for("costDefine"))
+            except:
+                flash("insertCostDefineError")
+                return redirect(url_for("costDefine"))
+                
+            
     
     return render_template('costDefine.html',
                            userInfo = user,
