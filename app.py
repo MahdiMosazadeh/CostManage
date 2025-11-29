@@ -147,7 +147,9 @@ class CostDefine(DB.Model):
     )
 
     debit = DB.Column(DB.Float, nullable=False)
-    create_date = DB.Column(DB.String(20))
+    year = DB.Column(DB.Integer)
+    month = DB.Column(DB.Integer)
+    day = DB.Column(DB.Integer)
 
 
 with app.app_context():
@@ -315,12 +317,21 @@ def costDefine():
         if "insertCostDefine" in request.form:
             costExtendID = request.form.get("costExtendID")
             costDebit = request.form.get("debit")
+            
+            #Date Splite
             debitDate = request.form.get("debitDate")
+            year_str, month_str, day_str = debitDate.split("/")
+            year = int(year_str)
+            month = int(month_str)
+            day = int(day_str)
+
             
             try:
                 insertCostDefine = CostDefine(costExtend_id=costExtendID,
                                               debit=costDebit,
-                                              create_date=debitDate
+                                              year=year,
+                                              month=month,
+                                              day=day
                                               )
                 DB.session.add(insertCostDefine)
                 DB.session.commit()
