@@ -349,11 +349,24 @@ def costDefine():
                            )
 
 #### costLists
-@app.route("/dashboard/costLists")
+@app.route("/dashboard/costLists" , methods = ["POST" , "GET"])
 @login_required
 def costLists():
     user = User.query.filter_by(id = session["user_id"]).first()
-    return render_template('costLists.html', userInfo = user)
+    costDefineList = CostDefine.query.join(CostExtend , CostExtend.id == CostDefine.costExtend_id).join(CostCenter , CostCenter.id ==  CostExtend.costCenter_id).filter(CostCenter.user_id==session["user_id"]).all()
+    
+    if request.method == "POST":
+        if "deleteCostDefine" in request.form:
+            costDefine_id = request.form.get("costDefine_id")
+            deleteCostDefine = CostDefine.query.filter_by(id = costDefine_id).first()
+            DB.session.delete(deleteCostDefine)
+            DB.session.commit()
+            return redirect(url_for("costLists"))
+    
+    return render_template('costLists.html',
+                           userInfo = user,
+                           costDefineList = costDefineList
+                           )
 
 #### costReports
 @app.route("/dashboard/costReports")
