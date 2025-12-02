@@ -1,38 +1,196 @@
-{% extends "dashboard.html" %}
+{% extends 'dashboard.html' %}
 
-{% block title %}گزارشات{% endblock %}
+{% block title %}
+  گزارشات
+{% endblock %}
 {% block content %}
-            <section class="content">
-          <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-12 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-aqua">
-                <div class="inner">
-                  <h1>گزارشات</h1>
-              </div>
+  <section class="content">
+<style>
+  .row label {
+    margin-top: 10px;
+  }
+</style>
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-4">
+        <!-- DIRECT CHAT SUCCESS -->
+        <div class="box box-success direct-chat direct-chat-success">
+          <div class="box-header with-border">
+            <h3 class="box-title">مراکز هزینه</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
-            <!-- ./col -->
-           
-            <!-- ./col -->
-            
-            <!-- ./col -->
-            
-            <!-- ./col -->
           </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages" style="height: auto;">
+              <form role="form" method="POST">
+                <select class="form-control" name="costExtendID">
+                  <option value="">1</option>
+                  <option value="">2</option>
+                  <option value="">3</option>
+                </select>
+                <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
 
-          <div class="row">
-            <!-- right col -->
-            <section class="col-lg-7 connectedSortable">
-              <!-- TO DO List -->
-              
-              <!-- /.box -->
-            </section>
-            <!-- /.right col -->
-            <!-- left col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable"></section>
-            <!-- left col -->
+                <label>از تاریخ</label>
+                <input type="text" class="form-control" id="datePicker" name="debitDate" placeholder="از تاریخ" />
+
+                <label>تا تاریخ</label>
+                <input type="text" class="form-control" id="datePicker2" name="debitDate" placeholder="تا تاریخ" />
+              </form>
+            </div>
           </div>
-          <!-- /.row (main row) -->
-        </section>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <form action="#" method="post">
+              <div class="input-group">
+                <button type="submit" class="btn btn-primary btn-flat" style="border-radius: 3px;">جستجو</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box-footer -->
+        </div>
+        <!-- /.direct-chat -->
+      </div>
+
+      <div class="col-md-4">
+        <!-- DIRECT CHAT SUCCESS -->
+        <div class="box box-success direct-chat direct-chat-success">
+          <div class="box-header with-border">
+            <h3 class="box-title">دسته بندی ها</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages" style="height: auto;">
+              <form role="form" method="POST">
+                <select class="form-control" name="costExtendID">
+                  <option value="">1</option>
+                  <option value="">2</option>
+                  <option value="">3</option>
+                </select>
+                <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+                <label>از تاریخ</label>
+                <input type="text" class="form-control" id="datePicker3" name="debitDate" placeholder="از تاریخ" />
+
+                <label>تا تاریخ</label>
+                <input type="text" class="form-control" id="datePicker4" name="debitDate" placeholder="تا تاریخ" />
+              </form>
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <form action="#" method="post">
+              <div class="input-group">
+                <button type="submit" class="btn btn-primary btn-flat" style="border-radius: 3px;">جستجو</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box-footer -->
+        </div>
+        <!-- /.direct-chat -->
+      </div>
+
+      <div class="col-md-4">
+        <!-- DIRECT CHAT SUCCESS -->
+        <div class="box box-success direct-chat direct-chat-success">
+          <div class="box-header with-border">
+            <h3 class="box-title">هزینه ها</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages" style="height: auto;">
+              <form role="form" method="POST">
+                <select class="form-control" name="costExtendID">
+                  <option value="">1</option>
+                  <option value="">2</option>
+                  <option value="">3</option>
+                </select>
+                <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+                <label>از تاریخ</label>
+                <input type="text" class="form-control" id="datePicker5" name="debitDate" placeholder="تاریخ" />
+
+                <label>تا تاریخ</label>
+                <input type="text" class="form-control" id="datePicker6" name="debitDate" placeholder="تاریخ" />
+              </form>
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <form action="#" method="post">
+              <div class="input-group">
+                <button type="submit" class="btn btn-primary btn-flat" style="border-radius: 3px;">جستجو</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box-footer -->
+        </div>
+        <!-- /.direct-chat -->
+      </div>
+
+      <script>
+        $(document).ready(function () {
+          $('#datePicker').persianDatepicker({
+            format: 'YYYY/MM/DD'
+          })
+        })
+        $(document).ready(function () {
+          $('#datePicker2').persianDatepicker({
+            format: 'YYYY/MM/DD'
+          })
+        })
+        $(document).ready(function () {
+          $('#datePicker3').persianDatepicker({
+            format: 'YYYY/MM/DD'
+          })
+        })
+        $(document).ready(function () {
+          $('#datePicker4').persianDatepicker({
+            format: 'YYYY/MM/DD'
+          })
+        })
+        $(document).ready(function () {
+          $('#datePicker5').persianDatepicker({
+            format: 'YYYY/MM/DD'
+          })
+        })
+        $(document).ready(function () {
+          $('#datePicker6').persianDatepicker({
+            format: 'YYYY/MM/DD'
+          })
+        })
+      </script>
+    </div>
+
+
+    <div class="row">
+      <!-- right col -->
+      <section class="col-lg-7 connectedSortable">
+        <!-- TO DO List -->
+
+        <!-- /.box -->
+      </section>
+      <!-- /.right col -->
+      <!-- left col (We are only adding the ID to make the widgets sortable) -->
+      <section class="col-lg-5 connectedSortable"></section>
+      <!-- left col -->
+    </div>
+    <!-- /.row (main row) -->
+  </section>
 {% endblock %}
