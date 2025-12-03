@@ -377,7 +377,12 @@ def costLists():
 @login_required
 def costReports():
     user = User.query.filter_by(id = session["user_id"]).first()
-    return render_template('costReports.html', userInfo = user)
+    costCentersList = CostCenter.query.filter_by(user_id = session["user_id"]).all()
+    
+    return render_template('costReports.html',
+                           userInfo = user,
+                           costCentersList = costCentersList
+                           )
 
 #### exit
 @app.route("/exit")
