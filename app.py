@@ -224,7 +224,7 @@ def costCenters():
 def costCategory():
     user = User.query.filter_by(id = session["user_id"]).first()
     costCenterList = CostCenter.query.filter_by(user_id = session.get("user_id")).all()
-    categoryList = CostCategory.query.all()
+    categoryList = CostCategory.query.join(CostCenter , CostCenter.id == CostCategory.costCenter_id).filter(CostCenter.user_id==session["user_id"]).all()
     
     if request.method == "POST":
         if "insertCostCategory" in request.form:
@@ -257,7 +257,11 @@ def costCategory():
                 flash("ErrorDeleteCategory")
                 return redirect(url_for("costCategory"))
 
-    return render_template('costCategory.html', userInfo = user , costCenterList = costCenterList , categoryList = categoryList)
+    return render_template('costCategory.html',
+                           userInfo = user ,
+                           costCenterList = costCenterList ,
+                           categoryList = categoryList
+                           )
 
 #### costExtend
 @app.route("/dashboard/costExtend" , methods = ["POST" , "GET"])
