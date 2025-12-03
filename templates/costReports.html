@@ -26,7 +26,7 @@
             <!-- Conversations are loaded here -->
             <div class="direct-chat-messages" style="height: auto;">
               <form role="form" method="POST">
-                <select class="form-control" name="costExtendID">
+                <select class="form-control" name="costCenterID">
                   {% for costCenter in costCentersList %}
                     <option value="{{costCenter.id}}">{{costCenter.name}}</option>
                   {% endfor %}
@@ -36,18 +36,22 @@
                 <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
 
                 <label>از تاریخ</label>
-                <input type="text" class="form-control" id="datePicker" name="debitDate" placeholder="از تاریخ" />
+                <input type="text" class="form-control" id="datePicker" name="fromCostCenterDebitDate" placeholder="از تاریخ" />
 
                 <label>تا تاریخ</label>
-                <input type="text" class="form-control" id="datePicker2" name="debitDate" placeholder="تا تاریخ" />
-              </form>
+                <input type="text" class="form-control" id="datePicker2" name="toCostCenterDebitDate" placeholder="تا تاریخ" />
+              
             </div>
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <form action="#" method="post">
               <div class="input-group">
-                <button type="submit" class="btn btn-primary btn-flat" style="border-radius: 3px;">جستجو</button>
+                <button type="submit" class="btn btn-primary btn-flat" name="searchCostCenterDebit" style="border-radius: 3px;">جستجو</button>
+                {% for category, message in get_flashed_messages(with_categories=true) %}
+                  {% if category == "costCenterSum" or category == "costCenterZero" %}
+                    <p style="color:green;display: inline;margin-right: 20px;">{{ "{:,}".format(message|int) }}</p>
+                  {% endif %}
+                {% endfor %}
               </div>
             </form>
           </div>

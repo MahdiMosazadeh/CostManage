@@ -1,5 +1,6 @@
 from flask import Flask , render_template , redirect , url_for , request , session , flash
 from flask_sqlalchemy import SQLAlchemy # type: ignore
+from sqlalchemy import func
 from functools import wraps
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
@@ -146,7 +147,7 @@ class CostDefine(DB.Model):
         nullable=False
     )
 
-    debit = DB.Column(DB.Float, nullable=False)
+    debit = DB.Column(DB.BigInteger, nullable=False)
     year = DB.Column(DB.Integer)
     month = DB.Column(DB.Integer)
     day = DB.Column(DB.Integer)
@@ -320,7 +321,7 @@ def costDefine():
     if request.method == "POST":
         if "insertCostDefine" in request.form:
             costExtendID = request.form.get("costExtendID")
-            costDebit = request.form.get("debit")
+            costDebit = int(request.form.get("debit"))
             
             #Date Splite
             debitDate = request.form.get("debitDate")
@@ -373,11 +374,49 @@ def costLists():
                            )
 
 #### costReports
-@app.route("/dashboard/costReports")
+@app.route("/dashboard/costReports" , methods = ["POST" , "GET"])
 @login_required
 def costReports():
     user = User.query.filter_by(id = session["user_id"]).first()
     costCentersList = CostCenter.query.filter_by(user_id = session["user_id"]).all()
+    
+    if request.method == "POST":
+        if "searchCostCenterDebit" in request.form:
+            costCenterID = request.form.get("costCenterID")
+            user_id = session.get("user_id")   # دریافت user_id ذخیره‌شده در سشن
+
+            # تاریخ‌ها از فرم
+            fromDate = request.form.get("fromCostCenterDebitDate")
+            toDate   = request.form.get("toCostCenterDebitDate")
+
+            # تبدیل "1403/01/15" → 14030115
+            fromDateNum = int(fromDate.replace("/", ""))
+            toDateNum   = int(toDate.replace("/", ""))
+
+            # ساخت مقدار تاریخ عددی برای مقایسه
+            date_expr = (CostDefine.year * 10000) + (CostDefine.month * 100) + CostDefine.day
+
+            # کوئری نهایی شامل:
+            # 1) فیلتر مرکز هزینه
+            # 2) فیلتر کاربر صاحب مرکز هزینه
+            # 3) فیلتر بازه‌ی تاریخ
+            total_debit = (
+                DB.session.query(func.sum(CostDefine.debit))
+                .join(CostExtend, CostExtend.id == CostDefine.costExtend_id)
+                .join(CostCenter, CostCenter.id == CostExtend.costCenter_id)
+                .filter(CostCenter.id == costCenterID)
+                .filter(CostCenter.user_id == user_id)
+                .filter(date_expr >= fromDateNum)
+                .filter(date_expr <= toDateNum)
+                .scalar()
+            )
+            if total_debit is None:
+                flash("0", "costCenterZero")
+                return redirect(url_for("costReports"))
+            else:
+                flash(total_debit, "costCenterSum")
+                return redirect(url_for("costReports"))
+            
     
     return render_template('costReports.html',
                            userInfo = user,
